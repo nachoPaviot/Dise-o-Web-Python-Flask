@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+        <h1>Bienvenido/a!</h1>
+        <div><h3>Este es su gestor de clientes y productos</h3></div>
+        <div><h4>Para más funcionalidades debe ingresar sus credenciales  <a href={{ url_for('ingresar') }} class="btn btn-success">Ingresar<a></h4></div>
+{% endblock %}
