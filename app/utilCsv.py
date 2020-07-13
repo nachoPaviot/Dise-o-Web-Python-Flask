@@ -40,19 +40,3 @@ def validarUsuarioNuevo(strUsuario):
 			r = False
 			return r
 	return r
-
-def sugerirElementoArchivo(strPedido, strCampoEspecificado, strArchivo):
-	"""
-	Función que me devuelve un listado de sugerencias segun el campo especificado
-		strPedido -> el string que deseo encontrar
-		strCampoEspecificado -> el campo donde deseo que se encuentre el string que envio de busqueda
-		strArchivo -> el archivo donde deseo buscar el dato
-	    return una lista con los resultados de busqueda
-	"""
-	resultado = []
-	Listado = abrirCSV(strArchivo)
-	for item in Listado:
-			if strPedido in item[strCampoEspecificado]:
-				listado.append(item)
-
-	return resultado
