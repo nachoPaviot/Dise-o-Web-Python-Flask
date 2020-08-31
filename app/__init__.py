@@ -5,4 +5,4 @@ app = Flask(__name__) #Creamos una nueva instancia de Flask y la asignamos a `ap
 bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'nunca-la-adivinaras'
 
-from app import routes
+from app import routes#Las vistas se importan aca abajo para evitar problemas de referencia mutua con app

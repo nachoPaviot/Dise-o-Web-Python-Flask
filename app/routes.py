@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash, session
 from app import app
 from .forms import *
 import csv
-from .utilCsv import *
+from .utils import *
 
 @app.route('/')
 def index():
@@ -68,18 +68,12 @@ def clientes():
     iClientes = []
     iEncabezados = []    
     if 'username' in session:
-        try:
-            if not 'iClientes' in session:
-                iClientes = abrirCSV('clientes.csv')
-            else:
-                iClientes = session['iClientes']
-                
-            iEncabezados = iClientes[0].keys()
-            
-        except Exception as e:
-            flash('Error: ' + str(e))
-        finally:
-            return render_template('clientes.html', inserciones = iClientes, encabezados=iEncabezados)
+        if not 'iClientes' in session:
+            iClientes = abrirCSV('clientes.csv')
+        else:
+            iClientes = session['iClientes']  
+        iEncabezados = iClientes[0].keys()
+        return render_template('clientes.html', inserciones = iClientes, encabezados=iEncabezados)
     else:
         return ingresar()
 
@@ -123,6 +117,9 @@ def clientesEdad():
         if formulario.is_submitted():
             Clientes = abrirCSV('clientes.csv')
             session['Clientes'] = Clientes
+            if ValidarSoloNumerosPositivos(formulario.txtEdadMinina.data, formulario.txtEdadMinina.data) == False:
+                flash("Error. Solo puede ingresar números positivos")
+                return render_template('clientesEdad.html', inserciones=ClientesMostrados, encabezados=Encabezados, formulario=formulario)
             for item in Clientes:
                 if int(item['Edad']) >= formulario.txtEdadMinina.data and int(item['Edad']) <= formulario.txtEdadMaxima.data:
                     ClientesMostrados.append(item)
@@ -180,7 +177,6 @@ def agregarCliente():
                 else:
                     flash("El cliente ya esta en la base de datos")
                     return render_template('agregarCliente.html', form=formulario)
-            flash("El cliente se agregó correctamente")
         return render_template('agregarCliente.html', form=formulario)
     else:
         return ingresar()
